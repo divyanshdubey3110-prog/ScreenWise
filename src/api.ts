@@ -6,7 +6,7 @@
 import { User, Family, ScreenTimeLog, DeviceFreeSchedule, ActivityPoll, OfflineActivity, ExtraTimeRequest, EmergencyContact, DatabaseState, CategoryBreakdown } from './types';
 
 // Detect static/offline deployment context (like GitHub Pages)
-const isStaticMode = typeof window !== 'undefined' && (
+let isStaticMode = typeof window !== 'undefined' && (
   window.location.hostname.endsWith('github.io') ||
   window.location.hostname.includes('githubpreview.dev') ||
   localStorage.getItem('screenwise_use_mock_api') === 'true'
@@ -276,8 +276,19 @@ export const API = {
       const user = db.users.find(u => u.id === currentSessionUserId) || db.users[0];
       return { user };
     }
-    const res = await fetch('/api/auth/me');
-    return res.json();
+    try {
+      const res = await fetch('/api/auth/me');
+      if (!res.ok) throw new Error('Not OK');
+      return await res.json();
+    } catch (err) {
+      console.warn("Backend API not reachable. Fallback to offline static mode.", err);
+      isStaticMode = true;
+      localStorage.setItem('screenwise_use_mock_api', 'true');
+      const db = getLocalDb();
+      const currentSessionUserId = getLocalSessionUserId();
+      const user = db.users.find(u => u.id === currentSessionUserId) || db.users[0];
+      return { user };
+    }
   },
 
   async login(email: string, password?: string, role?: 'parent' | 'child' | 'admin'): Promise<{ success: boolean; user: User; message?: string; error?: string }> {
@@ -375,8 +386,22 @@ export const API = {
       const members = db.users.filter(u => u.familyId === familyId || (!u.familyId && familyId === 'fam_dubey'));
       return { family, members, routineCompletion: db.settings?.familyRoutineCompletion || 71 };
     }
-    const res = await fetch('/api/family');
-    return res.json();
+    try {
+      const res = await fetch('/api/family');
+      if (!res.ok) throw new Error('Not OK');
+      return await res.json();
+    } catch (err) {
+      console.warn("Backend API not reachable. Fallback to offline static family mode.", err);
+      isStaticMode = true;
+      localStorage.setItem('screenwise_use_mock_api', 'true');
+      const db = getLocalDb();
+      const currentSessionUserId = getLocalSessionUserId();
+      const currentUser = db.users.find(u => u.id === currentSessionUserId);
+      const familyId = currentUser?.familyId || 'fam_dubey';
+      const family = db.family?.id === familyId ? db.family : null;
+      const members = db.users.filter(u => u.familyId === familyId || (!u.familyId && familyId === 'fam_dubey'));
+      return { family, members, routineCompletion: db.settings?.familyRoutineCompletion || 71 };
+    }
   },
 
   async createFamily(data: { familyName: string; parentName: string; limitCount: number }): Promise<{ success: boolean; family: Family; members: User[] }> {

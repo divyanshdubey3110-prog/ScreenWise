@@ -60,6 +60,22 @@ export default function SettingsScreen({ currentUser, onLogout, onSwitchProfile,
         setFeedback(errData.error || 'Failed to remove member.');
       }
     } catch (err) {
+      try {
+        const localDbStr = localStorage.getItem('screenwise_db_v2');
+        if (localDbStr) {
+          const dbObj = JSON.parse(localDbStr);
+          // Remove from local users list
+          dbObj.users = dbObj.users.filter((u: any) => u.id !== targetUserId);
+          localStorage.setItem('screenwise_db_v2', JSON.stringify(dbObj));
+          setFeedback('Member successfully removed (Local Only).');
+          setConfirmRemoveId(null);
+          onRefreshUser?.();
+          loadSettingsData();
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+      }
       setFeedback('Error connecting to server.');
     } finally {
       setTimeout(() => setFeedback(''), 4000);

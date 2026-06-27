@@ -78,12 +78,38 @@ export default function FamilyOverview({ currentUser, onNavigate, onViewStats }:
         loadFamilyData();
       } else {
         // Fallback update in state if server is loading
+        try {
+          const localDbStr = localStorage.getItem('screenwise_db_v2');
+          if (localDbStr) {
+            const dbObj = JSON.parse(localDbStr);
+            const foundUser = dbObj.users.find((u: any) => u.id === targetUserId);
+            if (foundUser) {
+              foundUser.dailyGoal = newGoalMinutes;
+              localStorage.setItem('screenwise_db_v2', JSON.stringify(dbObj));
+            }
+          }
+        } catch (e) {
+          console.error(e);
+        }
         setMembers(prev => prev.map(m => m.id === targetUserId ? { ...m, dailyGoal: newGoalMinutes } : m));
         setFeedback('Goal updated! (Local Refresh)');
         setEditingUserId(null);
       }
     } catch (err) {
       // Fallback
+      try {
+        const localDbStr = localStorage.getItem('screenwise_db_v2');
+        if (localDbStr) {
+          const dbObj = JSON.parse(localDbStr);
+          const foundUser = dbObj.users.find((u: any) => u.id === targetUserId);
+          if (foundUser) {
+            foundUser.dailyGoal = newGoalMinutes;
+            localStorage.setItem('screenwise_db_v2', JSON.stringify(dbObj));
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
       setMembers(prev => prev.map(m => m.id === targetUserId ? { ...m, dailyGoal: newGoalMinutes } : m));
       setFeedback('Goal updated locally.');
       setEditingUserId(null);

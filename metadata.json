@@ -1,0 +1,6 @@
+{
+  "name": "ScreenWise",
+  "description": "A Family Screen-Time Management and Healthy Routine Dashboard",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

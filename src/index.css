@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* HIGH FIDELITY CLASS-BASED DARK MODE SELECTORS */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body,
+.dark .min-h-screen,
+.dark .bg-slate-50 {
+  background-color: #030712 !important; /* Premium modern dark obsidian */
+  color: #f1f5f9 !important;
+}
+
+.dark .bg-white {
+  background-color: #0b0f19 !important; /* Sleek obsidian-navy card background */
+  color: #f1f5f9 !important;
+  border-color: #1e293b !important;
+}
+
+/* Overriding translucent light wrappers */
+.dark .bg-white\/40 {
+  background-color: rgba(11, 15, 25, 0.45) !important;
+  border-color: #1e293b !important;
+}
+
+.dark .bg-white\/60 {
+  background-color: rgba(11, 15, 25, 0.7) !important;
+  border-color: #1e293b !important;
+}
+
+.dark .bg-slate-100,
+.dark .bg-white .bg-slate-50,
+.dark .bg-white .bg-slate-100,
+.dark .border-slate-100 .bg-slate-50,
+.dark .bg-slate-50\/50,
+.dark .bg-red-50\/50 {
+  background-color: #111827 !important; /* Slightly deeper card background for rails/inputs */
+}
+
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border-slate-150,
+.dark .border-indigo-100,
+.dark .border-indigo-150 {
+  border-color: #1e293b !important; /* Subtle dark border lines */
+}
+
+.dark .text-slate-800,
+.dark .text-slate-900,
+.dark .text-slate-700 {
+  color: #f8fafc !important;
+}
+
+.dark .text-slate-600,
+.dark .text-slate-500,
+.dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-indigo-900,
+.dark .text-indigo-800,
+.dark .text-indigo-700 {
+  color: #a5b4fc !important;
+}
+
+.dark .text-indigo-600,
+.dark .text-indigo-500 {
+  color: #818cf8 !important;
+}
+
+.dark .bg-indigo-50 {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+  color: #c7d2fe !important;
+}
+
+.dark .border-indigo-100 {
+  border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Specific elements like drop-downs, select and inputs */
+.dark select,
+.dark input,
+.dark textarea {
+  background-color: #0e1424 !important;
+  color: #f1f5f9 !important;
+  border-color: #1e293b !important;
+}
+
+.dark option {
+  background-color: #0b0f19 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Header, sidebar buttons and widgets */
+.dark header {
+  background-color: #0b0f19 !important;
+  border-bottom-color: #1e293b !important;
+}
+
+.dark nav {
+  background-color: #0b0f19 !important;
+  border-color: #1e293b !important;
+}
+
+.dark .hover\:bg-slate-50:hover,
+.dark .hover\:bg-slate-100:hover,
+.dark .hover\:bg-indigo-100\/80:hover {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .bg-indigo-600 {
+  background-color: #4f46e5 !important;
+}
+
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-xl,
+.dark .shadow-indigo-100 {
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Override light-theme gradient panels to maintain gorgeous deep-space look */
+.dark .bg-gradient-to-r.from-white.to-indigo-50\/50 {
+  background-image: linear-gradient(to right, #0b0f19, #131a2e) !important;
+}
+
+.dark .bg-gradient-to-r.from-emerald-50\/20.via-white.to-indigo-50\/10 {
+  background-image: linear-gradient(to right, rgba(16, 185, 129, 0.1), #0b0f19, rgba(99, 102, 241, 0.05)) !important;
+}
+
+.dark .bg-gradient-to-br.from-indigo-50\/40.to-blue-50\/40 {
+  background-image: linear-gradient(to bottom right, rgba(99, 102, 241, 0.15), rgba(59, 130, 246, 0.15)) !important;
+  background-color: #0b0f19 !important;
+}
+
+.dark .bg-gradient-to-br.from-indigo-50.to-slate-100 {
+  background-image: linear-gradient(to bottom right, rgba(99, 102, 241, 0.1), #111827) !important;
+}
